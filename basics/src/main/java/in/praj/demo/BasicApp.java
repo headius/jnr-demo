@@ -1,11 +1,10 @@
 package in.praj.demo;
 
-public class BasicApp {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import jnr.ffi.LibraryLoader;
 
+public class BasicApp {
     public static void main(String[] args) {
-        System.out.println(new BasicApp().getGreeting());
+        var lib = LibraryLoader.create(LibMinimal.class).load("minimal");
+        System.out.println(lib.get_integer());
     }
 }
