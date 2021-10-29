@@ -19,7 +19,7 @@ val nativeDir = buildDir.resolve("native")
 val cc = tasks.register<Exec>("cc") {
     val libOutput = nativeDir.resolve("libminimal.so")
     workingDir(project.projectDir)
-    commandLine("gcc", "-shared", "-o", libOutput, "src/main/c/minimal.c")
+    commandLine("gcc", "-shared", "-o", libOutput, "-fPIC", "src/main/c/minimal.c")
     doFirst {
         mkdir(nativeDir)
     }
