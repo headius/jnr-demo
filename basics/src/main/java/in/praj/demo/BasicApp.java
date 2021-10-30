@@ -12,5 +12,12 @@ public class BasicApp {
         System.out.printf("%d + %d = %x\n", first, second, lib.get_sum(first, second));
 
         System.out.println("Received = " + lib.get_string());
+
+        var builder = new StringBuilder("WXYZ");
+        lib.mutate_string(builder);
+        System.out.println("Reversed = " + builder);
+
+        var smallStruct = lib.get_small_struct();
+        System.out.println(smallStruct);
     }
 }
