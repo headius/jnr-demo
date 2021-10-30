@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 
 int get_integer() {
@@ -67,4 +66,27 @@ typedef enum {
 
 weather_e get_weather() {
     return RAINY;
+}
+
+typedef struct {
+    large_s *large;
+} opaque_s;
+// Well it isn't exactly opaque, but you can pretend that -.-'
+
+void *get_opaque_pointer() {
+    opaque_s *ptr = (opaque_s *) malloc(sizeof(opaque_s));
+    ptr->large = (large_s *) malloc(sizeof(large_s));
+    ptr->large->small = get_small_struct();
+    ptr->large->small->value = 420.69;
+    return ptr;
+}
+
+double some_opaque_extraction(void *opaque) {
+    return ((opaque_s *) opaque)->large->small->value;
+}
+
+typedef int (*unary)(int);
+
+int apply_unary_function(int arg, unary f) {
+    return f(arg);
 }

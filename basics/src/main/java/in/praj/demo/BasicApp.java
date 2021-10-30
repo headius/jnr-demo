@@ -23,16 +23,20 @@ public class BasicApp {
         System.out.println(smallStruct);
 
         var largeStruct = new LibMinimal.LargeStruct(runtime);
-        var child = new LibMinimal.SmallStruct(runtime);
-        largeStruct.small.set(child);
+        largeStruct.small.set(smallStruct);
         lib.fill_large_struct(largeStruct);
         System.out.printf("Large struct data = %s, %d, %f\n",
-                largeStruct.name.get(), child.index.get(), child.value.get());
+                largeStruct.name.get(), smallStruct.index.get(), smallStruct.value.get());
 
         var letterUnion = new LibMinimal.LetterUnion(runtime);
         lib.fill_letter_union(letterUnion);
         System.out.printf("Letter returned = %c\n", letterUnion.l.get());
 
         System.out.println("Weather today = " + lib.get_weather());
+
+        var opaque = lib.get_opaque_pointer();
+        System.out.println("Extraction result = " + lib.some_opaque_extraction(opaque));
+
+        System.out.printf("Square of %d = %d\n", 7, lib.apply_unary_function(7, n -> n * n));
     }
 }

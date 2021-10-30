@@ -1,8 +1,10 @@
 package in.praj.demo;
 
+import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
 import jnr.ffi.Struct;
 import jnr.ffi.Union;
+import jnr.ffi.annotations.Delegate;
 import jnr.ffi.types.u_int32_t;
 import jnr.ffi.util.EnumMapper;
 
@@ -81,4 +83,18 @@ public interface LibMinimal {
 
     // The returned integer will get mapped into corresponding Java enum value.
     WeatherEnum get_weather();
+
+    // Use the general-purpose jnr.ffi.Pointer when you don't know what type it points to.
+    Pointer get_opaque_pointer();
+
+    double some_opaque_extraction(Pointer opaque);
+
+    // Any functional interface can be used to represent a function pointer provided
+    // it has the appropriate method signature and @Delegate annotation.
+    @FunctionalInterface
+    interface UnaryFunction {
+        @Delegate int apply(int input);
+    }
+
+    int apply_unary_function(int arg, UnaryFunction f);
 }
