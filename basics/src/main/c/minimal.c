@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 int get_integer() {
@@ -36,4 +37,34 @@ small_s *get_small_struct() {
     ptr->index = 12;
     ptr->value = 34.567;
     return ptr;
+}
+
+typedef struct {
+    char name[32];
+    small_s *small;
+} large_s;
+
+void fill_large_struct(large_s *large) {
+    strcpy(large->name, "LARGE");
+    large->small->index = 98;
+    large->small->value = 76.543;
+}
+
+typedef union {
+    unsigned char l;
+    unsigned int v;
+} letter_u;
+
+void fill_letter_union(letter_u *letter) {
+    letter->v = 70;
+}
+
+typedef enum {
+    SUNNY  = 1,
+    CLOUDY = 2,
+    RAINY  = 3
+} weather_e;
+
+weather_e get_weather() {
+    return RAINY;
 }
