@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.jnr:jnr-ffi:2.2.7")
+    implementation("com.github.jnr:jnr-ffi:2.2.8")
 }
 
 application {

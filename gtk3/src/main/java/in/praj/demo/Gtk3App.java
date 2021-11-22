@@ -2,6 +2,7 @@ package in.praj.demo;
 
 import jnr.ffi.LibraryLoader;
 import jnr.ffi.LibraryOption;
+import jnr.ffi.Runtime;
 
 import java.util.Map;
 
@@ -16,20 +17,23 @@ public class Gtk3App {
 
     public static void main(String[] args) {
         var lib = LibraryLoader.loadLibrary(LibGtk3.class, Map.of(LibraryOption.LoadNow, true), LIBS);
+        var refs = Runtime.getRuntime(lib).newObjectReferenceManager();
 
         System.out.printf("GTK version: %d.%d.%d\n",
                 lib.gtk_get_major_version(), lib.gtk_get_minor_version(), lib.gtk_get_micro_version());
 
         var application = lib.gtk_application_new("in.praj.demo.Gtk3App", 0);
-        LibGtk3.GCallback onActivate = (app, data) -> {
-            var window = lib.gtk_application_window_new(app);
-            var button = lib.gtk_button_new_wih_label("Click me");
+        var onActivate = refs.add((LibGtk3.GCallback) (gobject, data) -> {
+            var window = lib.gtk_application_window_new(gobject);
+            var button = lib.gtk_button_new_with_label("Click me");
             lib.gtk_container_add(window, button);
             lib.gtk_widget_show_all(window);
-        };
+        });
 
         lib.g_signal_connect_data(application, "activate", onActivate, null, null, 0);
         lib.g_application_run(application, 0, null);
+
+        refs.remove(onActivate);
         lib.g_object_unref(application);
     }
 }
