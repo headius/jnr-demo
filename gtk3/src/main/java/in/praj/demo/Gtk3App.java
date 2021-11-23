@@ -23,17 +23,18 @@ public class Gtk3App {
                 lib.gtk_get_major_version(), lib.gtk_get_minor_version(), lib.gtk_get_micro_version());
 
         var application = lib.gtk_application_new("in.praj.demo.Gtk3App", 0);
-        var onActivate = refs.add((LibGtk3.GCallback) (gobject, data) -> {
+        LibGtk3.GCallback callback = (gobject, data) -> {
             var window = lib.gtk_application_window_new(gobject);
             var button = lib.gtk_button_new_with_label("Click me");
             lib.gtk_container_add(window, button);
             lib.gtk_widget_show_all(window);
-        });
+        };
+        var callbackKey = refs.add(callback);
 
-        lib.g_signal_connect_data(application, "activate", onActivate, null, null, 0);
+        lib.g_signal_connect_data(application, "activate", callback, null, null, 0);
         lib.g_application_run(application, 0, null);
 
-        refs.remove(onActivate);
+        refs.remove(callbackKey);
         lib.g_object_unref(application);
     }
 }

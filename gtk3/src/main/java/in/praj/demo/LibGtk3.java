@@ -13,7 +13,7 @@ public interface LibGtk3 {
     @u_int64_t long g_signal_connect_data(
             Pointer instance,
             String detailed_signal,
-            Pointer c_handler,
+            GCallback c_handler,
             Pointer data,
             Pointer destroy_data,
             int connect_flags);
