@@ -13,7 +13,7 @@ public interface LibGtk3 {
     @u_int64_t long g_signal_connect_data(
             Pointer instance,
             String detailed_signal,
-            Pointer c_handler,
+            GCallback c_handler,
             Pointer data,
             Pointer destroy_data,
             int connect_flags);
@@ -25,6 +25,9 @@ public interface LibGtk3 {
     Pointer gtk_button_new_with_label(String label);
     void gtk_container_add(Pointer container, Pointer widget);
     void gtk_widget_show_all(Pointer widget);
+
+    @u_int64_t long g_application_get_type();
+    Pointer g_type_check_instance_cast(Pointer inst, @u_int64_t long type);
 
     @FunctionalInterface
     interface GCallback {
